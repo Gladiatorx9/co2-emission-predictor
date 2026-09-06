@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vehicle Carbon Intelligence</title>
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         BACKGROUND VIDEO
+    ====================================================== -->
+
+    <video
+        autoplay
+        muted
+        loop
+        playsinline
+        id="background-video">
+
+        <source
+            src="{{ url_for('static', filename='video/McLaren.mp4') }}"
+            type="video/mp4">
+
+    </video>
+
+    <div class="video-overlay"></div>
+
+    <div class="grid-overlay"></div>
+
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+
+    <header class="top-bar">
+
+        <div class="brand">
+
+            <div class="brand-line"></div>
+
+            <div>
+                <span class="brand-main">VEHICLE</span>
+                <span class="brand-sub">CARBON INTELLIGENCE</span>
+            </div>
+
+        </div>
+
+
+        <div class="system-status">
+
+            <span class="status-light"></span>
+
+            <div>
+                <strong>SYSTEM ONLINE</strong>
+                <small>ML MODEL READY</small>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN DASHBOARD
+    ====================================================== -->
+
+    <main class="dashboard">
+
+
+        <!-- =================================================
+             LEFT SIDE — VIDEO / VEHICLE
+        ================================================== -->
+
+        <section class="vehicle-visual">
+
+
+            <div class="visual-top">
+
+                <span>01 / VEHICLE VISUALIZATION</span>
+
+                <span id="vehicle-code">
+                    VEHICLE-001
+                </span>
+
+            </div>
+
+
+            <!-- Vehicle video -->
+
+            <div class="video-frame">
+
+                <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    id="vehicle-video">
+
+                    <source
+                        src="{{ url_for('static', filename='video/McLaren.mp4') }}"
+                        type="video/mp4">
+
+                </video>
+
+                <div class="video-shade"></div>
+
+
+                <div class="video-info">
+
+                    <span>SELECTED VEHICLE</span>
+
+                    <strong id="visual-model">
+                        McLaren 720S
+                    </strong>
+
+                </div>
+
+
+                <div class="video-corner top-left"></div>
+                <div class="video-corner top-right"></div>
+                <div class="video-corner bottom-left"></div>
+                <div class="video-corner bottom-right"></div>
+
+            </div>
+
+
+            <!-- Vehicle identity -->
+
+            <div class="vehicle-identity">
+
+                <div>
+
+                    <span class="identity-label">
+                        CURRENT VEHICLE
+                    </span>
+
+                    <h1 id="vehicle-name">
+                        McLaren 720S
+                    </h1>
+
+                </div>
+
+
+                <div class="vehicle-class">
+
+                    <span>CLASS</span>
+
+                    <strong id="vehicle-class-name">
+                        SUPERCAR
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             RIGHT SIDE — CONTROLS
+        ================================================== -->
+
+        <section class="control-panel">
+
+
+            <!-- Header -->
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        CARBON ANALYTICS
+                    </span>
+
+                    <h2>
+                        Vehicle
+                        <span>Analysis</span>
+                    </h2>
+
+                </div>
+
+
+                <div class="model-id">
+
+                    <span>MODEL</span>
+
+                    <strong>LR-01</strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 VEHICLE SELECTOR
+            ================================================== -->
+
+            <div class="control-section">
+
+                <div class="section-title">
+
+                    <span>01</span>
+
+                    <div>
+                        <strong>SELECT VEHICLE</strong>
+                        <small>CHOOSE VEHICLE MODEL</small>
+                    </div>
+
+                </div>
+
+
+                <div class="select-wrapper">
+
+                    <select id="vehicle-select">
+
+                        <option value="mclaren">
+                            McLaren 720S
+                        </option>
+
+                        <option value="lamborghini">
+                            Lamborghini Aventador
+                        </option>
+
+                        <option value="porsche">
+                            Porsche 911 GT3
+                        </option>
+
+                        <option value="bmw">
+                            BMW M3 Competition
+                        </option>
+
+                    </select>
+
+                    <span class="select-arrow">
+                        ↓
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 VEHICLE PARAMETERS
+            ================================================== -->
+
+            <div class="control-section">
+
+                <div class="section-title">
+
+                    <span>02</span>
+
+                    <div>
+                        <strong>VEHICLE PARAMETERS</strong>
+                        <small>MODEL INPUT FEATURES</small>
+                    </div>
+
+                </div>
+
+
+                <form
+                    action="{{ url_for('predict') }}"
+                    method="post"
+                    id="prediction-form">
+
+
+                    <div class="parameter-grid">
+
+
+                        <!-- Engine -->
+
+                        <div class="parameter">
+
+                            <label for="enginesize">
+                                ENGINE SIZE
+                            </label>
+
+                            <div class="input-box">
+
+                                <input
+                                    type="number"
+                                    id="enginesize"
+                                    name="enginesize"
+                                    value="4.0"
+                                    step="any"
+                                    min="0"
+                                    required>
+
+                                <span>L</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Cylinders -->
+
+                        <div class="parameter">
+
+                            <label for="cylinders">
+                                CYLINDERS
+                            </label>
+
+                            <div class="input-box">
+
+                                <input
+                                    type="number"
+                                    id="cylinders"
+                                    name="cylinders"
+                                    value="8"
+                                    step="1"
+                                    min="1"
+                                    required>
+
+                                <span>CYL</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Fuel -->
+
+                        <div class="parameter full">
+
+                            <label for="fuel">
+                                COMBINED FUEL CONSUMPTION
+                            </label>
+
+                            <div class="input-box">
+
+                                <input
+                                    type="number"
+                                    id="fuel"
+                                    name="fuel"
+                                    value="12.2"
+                                    step="any"
+                                    min="0"
+                                    required>
+
+                                <span>L/100 KM</span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- Vehicle specification strip -->
+
+                    <div class="spec-strip">
+
+                        <div>
+
+                            <span>ENGINE</span>
+
+                            <strong id="spec-engine">
+                                4.0 L
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>CYLINDERS</span>
+
+                            <strong id="spec-cylinder">
+                                8
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>FUEL</span>
+
+                            <strong id="spec-fuel">
+                                12.2
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Prediction button -->
+
+                    <button
+                        type="submit"
+                        class="predict-button">
+
+                        <span>
+                            RUN CO₂ PREDICTION
+                        </span>
+
+                        <strong>
+                            →
+                        </strong>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RESULT
+            ================================================== -->
+
+            {% if prediction_text %}
+
+            <div class="prediction-result">
+
+
+                <div class="result-header">
+
+                    <div>
+
+                        <span>
+                            03 / PREDICTION OUTPUT
+                        </span>
+
+                        <strong>
+                            ESTIMATED CO₂ EMISSIONS
+                        </strong>
+
+                    </div>
+
+                    <div class="result-status">
+                        COMPLETE
+                    </div>
+
+                </div>
+
+
+                <div class="result-value">
+
+                    <strong>
+                        {{ prediction_text }}
+                    </strong>
+
+                    <span>
+                        g/km
+                    </span>
+
+                </div>
+
+
+                <!-- Meter -->
+
+                <div class="emission-meter">
+
+                    <div class="meter-labels">
+
+                        <span>LOW</span>
+                        <span>MODERATE</span>
+                        <span>HIGH</span>
+
+                    </div>
+
+                    <div class="meter">
+
+                        <div class="meter-marker"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-note">
+
+                    <span></span>
+
+                    Prediction generated using
+                    Linear Regression model.
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+
+            <!-- =================================================
+                 MODEL INFORMATION
+            ================================================== -->
+
+            <div class="model-info">
+
+                <div>
+
+                    <span>ALGORITHM</span>
+
+                    <strong>
+                        LINEAR REGRESSION
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>FEATURES</span>
+
+                    <strong>
+                        03
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>TARGET</span>
+
+                    <strong>
+                        CO₂ EMISSIONS
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <span>
+            VEHICLE CARBON INTELLIGENCE
+        </span>
+
+        <span class="footer-line"></span>
+
+        <span>
+            MACHINE LEARNING / AUTOMOTIVE ANALYTICS
+        </span>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        /*
+         * Vehicle database
+         *
+         * The values below are the default values shown
+         * when a vehicle is selected.
+         */
+
+        const vehicles = {
+
+            mclaren: {
+
+                name: "McLaren 720S",
+
+                className: "SUPERCAR",
+
+                code: "VEHICLE-001",
+
+                video: "{{ url_for('static', filename='video/McLaren.mp4') }}",
+
+                engine: 4.0,
+
+                cylinders: 8,
+
+                fuel: 12.2
+
+            },
+
+
+            lamborghini: {
+
+                name: "Lamborghini Aventador",
+
+                className: "SUPERCAR",
+
+                code: "VEHICLE-002",
+
+                video: "{{ url_for('static', filename='video/Lamborghini.mp4') }}",
+
+                engine: 6.5,
+
+                cylinders: 12,
+
+                fuel: 17.2
+
+            },
+
+
+            porsche: {
+
+                name: "Porsche 911 GT3",
+
+                className: "SPORTS CAR",
+
+                code: "VEHICLE-003",
+
+                video: "{{ url_for('static', filename='video/Porsche911.mp4') }}",
+
+                engine: 4.0,
+
+                cylinders: 6,
+
+                fuel: 13.0
+
+            },
+
+
+            bmw: {
+
+                name: "BMW M3 Competition",
+
+                className: "PERFORMANCE SEDAN",
+
+                code: "VEHICLE-004",
+
+                video: "{{ url_for('static', filename='video/Bmw.mp4') }}",
+
+                engine: 3.0,
+
+                cylinders: 6,
+
+                fuel: 10.8
+
+            }
+
+        };
+
+
+
+        /*
+         * Elements
+         */
+
+        const vehicleSelect =
+            document.getElementById("vehicle-select");
+
+        const video =
+            document.getElementById("vehicle-video");
+
+        const vehicleName =
+            document.getElementById("vehicle-name");
+
+        const visualModel =
+            document.getElementById("visual-model");
+
+        const vehicleClass =
+            document.getElementById("vehicle-class-name");
+
+        const vehicleCode =
+            document.getElementById("vehicle-code");
+
+        const engineInput =
+            document.getElementById("enginesize");
+
+        const cylinderInput =
+            document.getElementById("cylinders");
+
+        const fuelInput =
+            document.getElementById("fuel");
+
+        const specEngine =
+            document.getElementById("spec-engine");
+
+        const specCylinder =
+            document.getElementById("spec-cylinder");
+
+        const specFuel =
+            document.getElementById("spec-fuel");
+
+
+
+        /*
+         * Update vehicle
+         */
+
+        function changeVehicle() {
+
+            const selected =
+                vehicles[
+                    vehicleSelect.value
+                ];
+
+            if (!selected) {
+                return;
+            }
+
+
+            /*
+             * Fade video
+             */
+
+            video.classList.add("changing");
+
+
+            setTimeout(() => {
+
+                video.src =
+                    selected.video;
+
+                video.load();
+
+                video.play();
+
+                video.classList.remove("changing");
+
+            }, 350);
+
+
+            /*
+             * Update vehicle information
+             */
+
+            vehicleName.textContent =
+                selected.name;
+
+            visualModel.textContent =
+                selected.name;
+
+            vehicleClass.textContent =
+                selected.className;
+
+            vehicleCode.textContent =
+                selected.code;
+
+
+            /*
+             * Update input values
+             */
+
+            engineInput.value =
+                selected.engine;
+
+            cylinderInput.value =
+                selected.cylinders;
+
+            fuelInput.value =
+                selected.fuel;
+
+
+            updateSpecs();
+
+        }
+
+
+
+        /*
+         * Update specification strip
+         */
+
+        function updateSpecs() {
+
+            specEngine.textContent =
+                engineInput.value + " L";
+
+            specCylinder.textContent =
+                cylinderInput.value;
+
+            specFuel.textContent =
+                fuelInput.value;
+
+        }
+
+
+
+        /*
+         * Vehicle selection event
+         */
+
+        vehicleSelect.addEventListener(
+            "change",
+            changeVehicle
+        );
+
+
+        /*
+         * Update profile when user manually
+         * changes values.
+         */
+
+        engineInput.addEventListener(
+            "input",
+            updateSpecs
+        );
+
+        cylinderInput.addEventListener(
+            "input",
+            updateSpecs
+        );
+
+        fuelInput.addEventListener(
+            "input",
+            updateSpecs
+        );
+
+
+        /*
+         * Prediction meter
+         */
+
+        const result =
+            document.querySelector(
+                ".result-value strong"
+            );
+
+        const marker =
+            document.querySelector(
+                ".meter-marker"
+            );
+
+
+        if (result && marker) {
+
+            const rawText =
+                result.textContent;
+
+            const value =
+                parseFloat(
+                    rawText.replace(
+                        /[^0-9.-]/g,
+                        ""
+                    )
+                );
+
+
+            if (!isNaN(value)) {
+
+                let percentage =
+                    (value / 400) * 100;
+
+                percentage =
+                    Math.max(
+                        3,
+                        Math.min(
+                            percentage,
+                            97
+                        )
+                    );
+
+
+                setTimeout(() => {
+
+                    marker.style.left =
+                        percentage + "%";
+
+                }, 300);
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
